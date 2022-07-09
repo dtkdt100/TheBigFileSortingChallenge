@@ -4,9 +4,9 @@
 #include "XMCyber\FileSort.h"
 
 
-const int maxFileSizeBytes = 900000;
-const int numberOfLinesPerSegment = 1000;
-const int lineSizeBytes = 7;
+const int maxFileSizeBytes = 150;
+const int numberOfLinesPerSegment = 2;
+const int lineSizeBytes = 5;
 
 
 int main() {

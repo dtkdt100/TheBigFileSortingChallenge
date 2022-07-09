@@ -39,6 +39,9 @@
     <ClCompile Include="FilePathGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TempFile.cpp">
+      <Filter>Source Files\Lib</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Handle.h">
@@ -63,6 +66,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Exceptions.h">
+      <Filter>Header Files\Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="TempFile.h">
       <Filter>Header Files\Lib</Filter>
     </ClInclude>
   </ItemGroup>

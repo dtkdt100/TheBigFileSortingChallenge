@@ -1,4 +1,5 @@
 #include "Handle.h"
+#include "Exceptions.h"
 
 Handle::Handle(Handle&& other) : m_handle(std::exchange(other.m_handle, INVALID_HANDLE_VALUE)) {
 
@@ -6,7 +7,7 @@ Handle::Handle(Handle&& other) : m_handle(std::exchange(other.m_handle, INVALID_
 
 Handle::Handle(HANDLE handle) : m_handle(handle) {
 	if (!isValid()) {
-		throw std::exception("Invalid handle");
+		throw std::exception(INAVILD_HANDLE_EXCEPTION);
 	}
 }
 

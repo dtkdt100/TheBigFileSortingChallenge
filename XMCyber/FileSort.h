@@ -3,7 +3,7 @@
 #include <string>
 #include "File.h"
 
-class FileSortTest_FileSortStartsEmpty_Test;
+//class FileSortTest_FileSortStartsEmpty_Test;
 
 class FileSort final {
 public:
@@ -12,7 +12,7 @@ public:
 	void sort(const std::string& inFilePath, const std::string& outFilePath);
 	
 	// for tests
-	friend class FileSortTest_FileSortStartsEmpty_Test;
+	//friend class FileSortTest_FileSortStartsEmpty_Test;
 private:
 	ExceptionStatus isFileVaild(int fileSize);
 	

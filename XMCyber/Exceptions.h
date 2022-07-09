@@ -18,5 +18,5 @@ ExceptionStatus SET_START_FILE_POINTER_EXCEPTION = "Error setting start file poi
 ExceptionStatus READ_FROM_FILE_EXCEPTION = "Error reading from file";
 ExceptionStatus FILE_LINES_NOT_THE_SAME_LEN = "File lines are not the same length";
 
-ExceptionStatus INAVILD_HANDLE_EXCEPTION = "Invaild handle";
+ExceptionStatus INAVILD_HANDLE_EXCEPTION = "Invalid handle";
 ExceptionStatus INVALID_FILE_NAME_EXCEPTION = "Invalid file name";

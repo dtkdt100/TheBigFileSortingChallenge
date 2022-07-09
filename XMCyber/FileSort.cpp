@@ -2,10 +2,10 @@
 #include <iostream>
 #include <vector>
 #include "Exceptions.h"
-#include "File.h"
 #include "FilePathUtils.h"
 #include "FileSort.h"
 #include "FilePathGenerator.h"
+#include "TempFile.h"
 
 
 FileSort::FileSort(int maxFileSizeBytes, int numberOfLinesPerSegment, int lineSizeBytes):
@@ -84,11 +84,11 @@ void FileSort::mergeLayer(const std::string& outPath, int layer, int numOfFiles)
 }
 
 void FileSort::mergeTwoFiles(const std::string& path1, const std::string& path2, const std::string& outPath) {
-	File f1(path1, false);
-	File f2(path2, false);
+	TempFile f1(path1);
+	TempFile f2(path2);
 	
-	int f1Size = f1.getSize()/lineSizeBytes;
-	int f2Size = f2.getSize()/lineSizeBytes;
+	int f1Size = f1.getFile()->getSize() / lineSizeBytes;
+	int f2Size = f2.getFile()->getSize() / lineSizeBytes;
 	int i = 0, j = 0;
 
 	LinesBuffer l1, l2;
@@ -96,11 +96,11 @@ void FileSort::mergeTwoFiles(const std::string& path1, const std::string& path2,
 	File outFile(outPath, true);
 	
 	while (i < f1Size && j < f2Size) {
-		l1 = f1.readLines(lineSizeBytes, i * lineSizeBytes);
-		l2 = f2.readLines(lineSizeBytes, j * lineSizeBytes);
+		l1 = f1.getFile()->readLines(lineSizeBytes, i * lineSizeBytes);
+		l2 = f2.getFile()->readLines(lineSizeBytes, j * lineSizeBytes);
 		
-		if (l1.size() != lineSizeBytes-2 || l2.size() != lineSizeBytes-2) {
-			throw std::exception(FILE_SIZE_NOT_MULTIPLE_OF_LINES_PER_SEGMENT);
+		if (l1.size() > 1 || l2.size() > 1 || l1.front().size() != lineSizeBytes - 2 || l2.front().size() != lineSizeBytes - 2) {
+			throw std::exception(FILE_LINES_NOT_THE_SAME_LEN);
 		}
 
 		if (l2.front().compare(l1.front()) == 1) {
@@ -115,21 +115,16 @@ void FileSort::mergeTwoFiles(const std::string& path1, const std::string& path2,
 	}
 
 	while (i < f1Size) {
-		l1 = f1.readLines(lineSizeBytes, i * lineSizeBytes);
+		l1 = f1.getFile()->readLines(lineSizeBytes, i * lineSizeBytes);
 		outFile.writeLines(l1);
 		i++;
 	}
 
 	while (j < f2Size) {
-		l2 = f2.readLines(lineSizeBytes, j * lineSizeBytes);
+		l2 = f2.getFile()->readLines(lineSizeBytes, j * lineSizeBytes);
 		outFile.writeLines(l2);
 		j++;
 	}
-
-	f1.close();
-	f2.close();
-	File::deleteFile(path1);
-	File::deleteFile(path2);
 }
 
 void FileSort::splitFile(File* file, int numberOfSegements) {
