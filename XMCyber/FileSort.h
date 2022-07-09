@@ -8,20 +8,18 @@
 class FileSort final {
 public:
 	FileSort(int maxFileSizeBytes, int numberOfLinesPerSegment, int lineSizeBytes);
-	~FileSort();
 	void sort(const std::string& inFilePath, const std::string& outFilePath);
-	
-	// for tests
-	//friend class FileSortTest_FileSortStartsEmpty_Test;
+	void sort(const std::vector<std::string>& inFilePaths, const std::string& outFilePath);
+
 private:
-	ExceptionStatus isFileVaild(int fileSize);
+	bool isFileVaild(int fileSize);
 	
 	void mergeFiles(const std::string& outPath, int numberOfSegements);
 	void mergeLayer(const std::string& outPath, int layer, int numOfFiles);
 	void mergeTwoFiles(const std::string& path1, const std::string& path2, const std::string& outPath);
 	
-	void splitFile(File* file, int numberOfSegements);
-	void proccessSegment(File* file, int segIndex);
+	void splitFile(File* file, int numberOfSegements, int startIndex = 0);
+	void proccessSegment(File* file, int segIndex, int startInex = 0);
 	LinesBuffer sortSegment(File* file, int segIndex);
 
 	int maxFileSizeBytes;

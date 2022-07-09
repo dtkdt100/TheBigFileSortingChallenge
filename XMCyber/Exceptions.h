@@ -2,7 +2,7 @@
 #include "Defs.h"
 
 
-ExceptionStatus EMPTY = "";
+ExceptionStatus NO_EXCEPTION = "";
 
 ExceptionStatus MAX_FILE_SIZE_TOO_SMALL = "Max file size too small";
 ExceptionStatus LINES_PER_SEGEMENT_GREATER_THEN_ONE = "Lines per segment must be greater than one";

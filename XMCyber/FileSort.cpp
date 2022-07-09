@@ -20,40 +20,53 @@ FileSort::FileSort(int maxFileSizeBytes, int numberOfLinesPerSegment, int lineSi
 	}
 }
 
-FileSort::~FileSort() { 
-
-}
-
-ExceptionStatus FileSort::isFileVaild(int fileSize) {
+bool FileSort::isFileVaild(int fileSize) {
+	std::string error = NO_EXCEPTION;
 	if (fileSize > maxFileSizeBytes) {
-		return FILE_TOO_BIG_EXCEPTION;
+		error = FILE_TOO_BIG_EXCEPTION;
 	}
 	if (fileSize < numberOfLinesPerSegment * lineSizeBytes) {
-		return FILE_TOO_SMALL_EXCEPTION;
+		error = FILE_TOO_SMALL_EXCEPTION;
 	}
 	if (fileSize % (numberOfLinesPerSegment * lineSizeBytes) != 0) {
-		throw std::exception(FILE_SIZE_NOT_MULTIPLE_OF_LINES_PER_SEGMENT);
+		error = FILE_SIZE_NOT_MULTIPLE_OF_LINES_PER_SEGMENT;
 	}
-	return EMPTY;
+	if (error != NO_EXCEPTION) {
+		throw std::exception(error.c_str());
+	}
+	return true;
 }
 
 void FileSort::sort(const std::string& inFilePath, const std::string& outFilePath) {
 	File f = File(inFilePath);
+
 	int fSize = f.getSize();
-	ExceptionStatus errorMsg = isFileVaild(fSize);
+	if (!isFileVaild(fSize)) return;
 
-	if (errorMsg != EMPTY) {
-		throw std::exception(errorMsg);
-	}
-
-	
-	
 	basePath = FilePathUtils::getFileBasePath(inFilePath);
 	int numberOfSegements = fSize / (numberOfLinesPerSegment * lineSizeBytes);
+	
+	splitFile(&f, numberOfSegements);	
+	mergeFiles(outFilePath, numberOfSegements);
+}
 
+void FileSort::sort(const std::vector<std::string>& inFilePaths, const std::string& outFilePath) {
+	std::vector<File> files;
+	std::vector<int> sizes;
+	for (auto& filePath : inFilePaths) {
+		files.push_back(File(filePath));
+		sizes.push_back(files.back().getSize());
+		if (!isFileVaild(sizes.back())) return;
+	}
+	basePath = FilePathUtils::getFileBasePath(inFilePaths[0]);
 
-	splitFile(&f, numberOfSegements);
-		
+	int numberOfSegements = 0;
+
+	for (int i = 0; i < files.size(); i++) {
+		int numberOfSegementsPerFile = sizes[i] / (numberOfLinesPerSegment * lineSizeBytes);
+		splitFile(&files[i], numberOfSegementsPerFile, numberOfSegements);
+		numberOfSegements += numberOfSegementsPerFile;
+	}
 	mergeFiles(outFilePath, numberOfSegements);
 }
 
@@ -127,16 +140,16 @@ void FileSort::mergeTwoFiles(const std::string& path1, const std::string& path2,
 	}
 }
 
-void FileSort::splitFile(File* file, int numberOfSegements) {
+void FileSort::splitFile(File* file, int numberOfSegements, int startInex) {
 	for (int i = 0; i < numberOfSegements; i++) {
-		proccessSegment(file, i);
+		proccessSegment(file, i, startInex);
 	}
 }
 
-void FileSort::proccessSegment(File* file, int segIndex) {
+void FileSort::proccessSegment(File* file, int segIndex, int startInex) {
 	LinesBuffer sortedLines = sortSegment(file, segIndex);
 	
-	std::string path = FilePathGenerator::generateFilePathFromLayerAndIndex(basePath, 0, segIndex);
+	std::string path = FilePathGenerator::generateFilePathFromLayerAndIndex(basePath, 0, startInex+segIndex);
 	File f(path, true);
 	
 	f.writeLines(sortedLines);
