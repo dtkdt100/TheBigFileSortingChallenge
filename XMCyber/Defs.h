@@ -5,4 +5,4 @@
 
 using Buffer = std::vector<unsigned char>;
 using LinesBuffer = std::vector<std::string>;
-using ExceptionStatus = char const* const;
+using Exception = char const* const;

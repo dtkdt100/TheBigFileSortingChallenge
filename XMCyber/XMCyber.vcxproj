@@ -24,8 +24,8 @@
     <ClCompile Include="FilePathUtils.cpp" />
     <ClCompile Include="FileSort.cpp" />
     <ClCompile Include="Handle.cpp" />
+    <ClCompile Include="LayerMerger.cpp" />
     <ClCompile Include="TempFile.cpp" />
-    <ClCompile Include="Thread.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Defs.h" />
@@ -35,8 +35,8 @@
     <ClInclude Include="FilePathUtils.h" />
     <ClInclude Include="FileSort.h" />
     <ClInclude Include="Handle.h" />
+    <ClInclude Include="LayerMerger.h" />
     <ClInclude Include="TempFile.h" />
-    <ClInclude Include="Thread.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

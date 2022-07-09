@@ -4,8 +4,8 @@ TempFile::TempFile(const std::string& path, bool createNew): m_file(File(path, c
 	
 }
 
-File* TempFile::getFile() {
-	return &m_file;
+File& TempFile::getFile() {
+	return m_file;
 }
 
 TempFile::~TempFile() {

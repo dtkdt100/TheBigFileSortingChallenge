@@ -4,7 +4,7 @@
 class TempFile {
 public:
 	TempFile(const std::string& path, bool createNew = false);
-	File* getFile();
+	File& getFile();
 	~TempFile();
 private:
 	std::string path;

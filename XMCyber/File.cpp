@@ -29,10 +29,10 @@ LinesBuffer File::readLines(uint32_t numberOfBytes, LONG startOffset) {
 	LinesBuffer lines;
 	Buffer data1 = read(numberOfBytes, startOffset);
 	std::string line;
-	std::stringstream ss;
-	std::copy(data1.begin(), data1.end(), std::ostream_iterator<unsigned char>(ss));
+	std::stringstream stringstream;
+	std::copy(data1.begin(), data1.end(), std::ostream_iterator<unsigned char>(stringstream));
 
-	while (std::getline(ss, line)) {
+	while (std::getline(stringstream, line)) {
 		line.erase(line.end() - 1);
 		lines.push_back(line);
 	}
@@ -85,7 +85,7 @@ void File::close() {
 }
 
 void File::rename(const std::string& oldPath, const std::string& newPath) {
-	// File has to be closed for rename to work
+	// File needs to be closed for rename to work
 	if (!MoveFileA(oldPath.c_str(), newPath.c_str())) {
 		throw std::exception(RENAME_FILE_Exception);
 	}
@@ -99,6 +99,7 @@ bool File::exsits(const std::string& filePath) {
 }
 
 void File::deleteFile(const std::string& filePath) {
+	if (!File::exsits(filePath)) return;
 	if (!DeleteFileA(filePath.c_str())) {
 		throw std::exception(DELETE_FILE_EXCEPTION);
 	}

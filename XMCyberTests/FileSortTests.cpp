@@ -16,6 +16,8 @@ TEST(FileSortTest, SortSmallFile) {
 	const auto outPath = FilePathUtils::generateFilePath(dir, "sorted_small_file", "result");
 	const auto expectedFilePath = FilePathUtils::generateFilePath(dir, "expected_sorted_small_file", "txt");
 
+	File::deleteFile(outPath);
+
 	FileSort fileSort(130, 3, 5);
 	fileSort.sort(inputPath, outPath);
 
@@ -27,9 +29,10 @@ TEST(FileSortTest, SortBigFile) {
 	const auto inputPath = FilePathUtils::generateFilePath(dir, "unsorted_big_file", "txt");
 	const auto outPath = FilePathUtils::generateFilePath(dir, "sorted_big_file", "result");
 	const auto expectedFilePath = FilePathUtils::generateFilePath(dir, "expected_sorted_big_file", "txt");
+	
+	File::deleteFile(outPath);
 
-
-	FileSort fileSort(900000, 10000, 7);
+	FileSort fileSort(900000, 5000, 7);
 	fileSort.sort(inputPath, outPath);
 
 	EXPECT_EQ(true, File::compareFiles(outPath, expectedFilePath));
@@ -45,6 +48,7 @@ TEST(FileSortTest, SortMultipleFiles) {
 	const auto outPath = FilePathUtils::generateFilePath(dir, "sorted_multiple_file", "result");
 	const auto expectedFilePath = FilePathUtils::generateFilePath(dir, "expected_sorted_multiple_file", "txt");
 
+	File::deleteFile(outPath);
 
 	FileSort fileSort(150, 2, 5);
 	fileSort.sort(inputPaths, outPath);
@@ -52,10 +56,9 @@ TEST(FileSortTest, SortMultipleFiles) {
 	EXPECT_EQ(true, File::compareFiles(outPath, expectedFilePath));
 }
 
-// test end points and errors
 TEST(FileSortTest, FileWithDifferentLinesLength) {
 	const auto dir = TestsPathUtils::getCurrentTestsFilesDir();
-	const auto inputPath = FilePathUtils::generateFilePath(dir, "unsorted_big_file", "txt");
+	const auto inputPath = FilePathUtils::generateFilePath(dir, "file_with_different_lines_length", "txt");
 	const auto outPath = FilePathUtils::generateFilePath(dir, "out_file_with_different_lines_length", "result");
 
 	try {

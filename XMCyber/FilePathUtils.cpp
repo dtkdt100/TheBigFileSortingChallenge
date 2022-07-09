@@ -1,5 +1,4 @@
 #include "FilePathUtils.h"
-#include "Defs.h"
 #include "Exceptions.h"
 
 std::string FilePathUtils::getFileBasePath(const std::string& filename) {

@@ -30,9 +30,6 @@
     <ClCompile Include="FileSort.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Thread.cpp">
-      <Filter>Source Files\Lib</Filter>
-    </ClCompile>
     <ClCompile Include="FilePathUtils.cpp">
       <Filter>Source Files\Lib</Filter>
     </ClCompile>
@@ -41,6 +38,9 @@
     </ClCompile>
     <ClCompile Include="TempFile.cpp">
       <Filter>Source Files\Lib</Filter>
+    </ClCompile>
+    <ClCompile Include="LayerMerger.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -56,9 +56,6 @@
     <ClInclude Include="FileSort.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Thread.h">
-      <Filter>Header Files\Lib</Filter>
-    </ClInclude>
     <ClInclude Include="FilePathUtils.h">
       <Filter>Header Files\Lib</Filter>
     </ClInclude>
@@ -70,6 +67,9 @@
     </ClInclude>
     <ClInclude Include="TempFile.h">
       <Filter>Header Files\Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="LayerMerger.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
