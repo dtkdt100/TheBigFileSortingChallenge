@@ -10,5 +10,5 @@ std::string TestsPathUtils::getCurrentTestsDir() {
 }
 
 std::string TestsPathUtils::getCurrentTestsFilesDir() {
-	return getCurrentTestsDir() + "\\TestsFiles";
+	return FilePathUtils::appendPath(getCurrentTestsDir(), "TestsFiles");
 }

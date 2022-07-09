@@ -1,9 +1,9 @@
 #include <sstream>
 #include "File.h"
+#include "Exceptions.h"
 
-File::File(const std::string& path, bool createNew) : m_file(createNew ? 
-	createNewFile(path.c_str()) :
-	openFile(path.c_str())) {
+File::File(const std::string& path, bool createNew) : 
+	m_file(openFileInternal(path, createNew)) {
 }
 
 Buffer File::read(uint32_t numberOfBytes, LONG startOffset) {
@@ -11,15 +11,15 @@ Buffer File::read(uint32_t numberOfBytes, LONG startOffset) {
 	DWORD outBytes = 0;
 	
 	if (SetFilePointer(m_file.getRawHandle(), startOffset, NULL, FILE_BEGIN) == INVALID_SET_FILE_POINTER) {
-		throw std::exception("Failed to set file pointer");
+		throw std::exception(SET_START_FILE_POINTER_EXCEPTION);
 	}
 
 	if (!ReadFile(m_file.getRawHandle(), data.data(), numberOfBytes, &outBytes, nullptr)) {
-		throw std::exception("Failed to read file!");
+		throw std::exception(READ_FROM_FILE_EXCEPTION);
 	}
 
 	if(outBytes != numberOfBytes) {
-		throw std::exception("Failed to read file!");
+		throw std::exception(READ_FROM_FILE_EXCEPTION);
 	}
 
 	return data;
@@ -31,11 +31,13 @@ LinesBuffer File::readLines(uint32_t numberOfBytes, LONG startOffset) {
 	std::string line;
 	std::stringstream ss;
 	std::copy(data1.begin(), data1.end(), std::ostream_iterator<unsigned char>(ss));
-	
 
+	size_t lineLength = 0;
 	while (std::getline(ss, line)) {
 		line.erase(line.end() - 1);
 		lines.push_back(line);
+		if (lineLength == 0) lineLength = line.length();
+		else if (lineLength != line.length()) throw std::exception(FILE_LINES_NOT_THE_SAME_LEN);
 	}
 
 	return lines;
@@ -44,11 +46,11 @@ LinesBuffer File::readLines(uint32_t numberOfBytes, LONG startOffset) {
 void File::write(const Buffer& buffer) {
 	DWORD outBytes = 0;
 	if (!WriteFile(m_file.getRawHandle(), buffer.data(), buffer.size(), &outBytes, nullptr)) {
-		throw std::exception("Failed to write file!");
+		throw std::exception(WRITE_TO_FILE_EXCEPTION);
 	}
 
 	if (outBytes != buffer.size()) {
-		throw std::exception("Failed to write file!");
+		throw std::exception(WRITE_TO_FILE_EXCEPTION);
 	}
 }
 
@@ -63,7 +65,6 @@ void File::writeLines(const LinesBuffer& buffer) {
 	}
 	write(b);
 }
-
 
 
 int File::getSize() {
@@ -89,7 +90,7 @@ void File::close() {
 void File::rename(const std::string& oldPath, const std::string& newPath) {
 	// File has to be closed for rename to work
 	if (!MoveFileA(oldPath.c_str(), newPath.c_str())) {
-		throw std::exception("Failed to rename file");
+		throw std::exception(RENAME_FILE_Exception);
 	}
 }
 
@@ -102,7 +103,7 @@ bool File::exsits(const std::string& filePath) {
 
 void File::deleteFile(const std::string& filePath) {
 	if (!DeleteFileA(filePath.c_str())) {
-		throw std::exception("Failed to delete file");
+		throw std::exception(DELETE_FILE_EXCEPTION);
 	}
 }
 
@@ -112,16 +113,7 @@ bool File::compareFiles(const std::string& path1, const std::string& path2) {
 	return file1.compareFiles(file2);
 }
 
-Handle File::createNewFile(const std::string& filePath) const {
-	return createFileInternal(filePath, true);
-
-}
-
-Handle File::openFile(const std::string& filePath) const {
-	return createFileInternal(filePath, false);
-}
-
-Handle File::createFileInternal(const std::string& filePath, bool createNew) const {
+Handle File::openFileInternal(const std::string& filePath, bool createNew) const {
 	const auto fileHandle =
 		CreateFileA(filePath.c_str(),
 			GENERIC_READ | FILE_APPEND_DATA,

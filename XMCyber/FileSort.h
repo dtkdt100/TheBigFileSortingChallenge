@@ -14,7 +14,7 @@ public:
 	// for tests
 	friend class FileSortTest_FileSortStartsEmpty_Test;
 private:
-	std::string isFileVaild(int fileSize);
+	ExceptionStatus isFileVaild(int fileSize);
 	
 	void mergeFiles(const std::string& outPath, int numberOfSegements);
 	void mergeLayer(const std::string& outPath, int layer, int numOfFiles);

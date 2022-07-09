@@ -1,7 +1,7 @@
 #pragma once
-#include <Windows.h>
 #include <exception>
 #include <utility>
+#include "Defs.h"
 
 class Handle final {
 public:

@@ -12,30 +12,29 @@ FileSort::FileSort(int maxFileSizeBytes, int numberOfLinesPerSegment, int lineSi
 	maxFileSizeBytes(maxFileSizeBytes),
 	numberOfLinesPerSegment(numberOfLinesPerSegment), 
 	lineSizeBytes(lineSizeBytes) {
-
 }
 
 FileSort::~FileSort() { 
 
 }
 
-std::string FileSort::isFileVaild(int fileSize) {
+ExceptionStatus FileSort::isFileVaild(int fileSize) {
 	if (fileSize > maxFileSizeBytes) {
-		return "File is tool big";
+		return FILE_TOO_BIG_EXCEPTION;
 	}
 	if (fileSize < numberOfLinesPerSegment * lineSizeBytes) {
-		return "File is too small";
+		return FILE_TOO_SMALL_EXCEPTION;
 	}
-	return "";
+	return EMPTY;
 }
 
 void FileSort::sort(const std::string& inFilePath, const std::string& outFilePath) {
 	File f = File(inFilePath, false);
 	int fSize = f.getSize();
-	std::string errorMsg = isFileVaild(fSize);
+	ExceptionStatus errorMsg = isFileVaild(fSize);
 
-	if (errorMsg.size() > 0) {
-		throw std::exception(FILE_TOO_SMALL_EXCEPTION);
+	if (errorMsg != EMPTY) {
+		throw std::exception(errorMsg);
 	}
 	
 	basePath = FilePathUtils::getFileBasePath(inFilePath);
@@ -52,6 +51,7 @@ void FileSort::mergeFiles(const std::string& outPath, int numberOfSegements) {
 	int numberOfFiles = numberOfSegements;
 	while (numberOfFiles > 1) {
 		mergeLayer(outPath, layer, numberOfFiles);
+		// if numberOfFiles is odd, the number of merged files is numberOfFiles / 2 + 1
 		if (numberOfFiles % 2 == 0) numberOfFiles /= 2;
 		else numberOfFiles = numberOfFiles / 2 + 1;
 		layer++;
@@ -60,12 +60,10 @@ void FileSort::mergeFiles(const std::string& outPath, int numberOfSegements) {
 
 void FileSort::mergeLayer(const std::string& outPath, int layer, int numOfFiles) {
 	for (int i = 0; i < numOfFiles; i+=2) {
-
-		std::string outPathForFiles = FilePathGenerator::generateFilePathFromLayerAndIndex(basePath, layer+1, i/2);
+		std::string outPathForFiles = FilePathGenerator::generateFilePathFromLayerAndIndex(basePath, layer + 1, i / 2);
 		std::string path1 = FilePathGenerator::generateFilePathFromLayerAndIndex(basePath, layer, i);
 		if (i + 1 >= numOfFiles) {
 			File::rename(path1, outPathForFiles);
-			
 		}
 		else {
 			std::string path2 = FilePathGenerator::generateFilePathFromLayerAndIndex(basePath, layer, i+1);
@@ -83,21 +81,19 @@ void FileSort::mergeTwoFiles(const std::string& path1, const std::string& path2,
 	int i = 0, j = 0;
 
 	LinesBuffer l1, l2;
-	int startPointer1 = 0, startPointer2 = 0;
-	int linesToRead1 = 0, linesToRead2 = 0;
 	
-	File f3(outPath, true);
+	File outFile(outPath, true);
 	
 	while (i < f1Size && j < f2Size) {
 		l1 = f1.readLines(lineSizeBytes, i * lineSizeBytes);
 		l2 = f2.readLines(lineSizeBytes, j * lineSizeBytes);
 
 		if (l2.front().compare(l1.front()) == 1) {
-			f3.writeLines(l1);
+			outFile.writeLines(l1);
 			i++;
 		}
 		else {
-			f3.writeLines(l2);
+			outFile.writeLines(l2);
 			j++;
 		}
 
@@ -105,13 +101,13 @@ void FileSort::mergeTwoFiles(const std::string& path1, const std::string& path2,
 
 	while (i < f1Size) {
 		l1 = f1.readLines(lineSizeBytes, i * lineSizeBytes);
-		f3.writeLines(l1);
+		outFile.writeLines(l1);
 		i++;
 	}
 
 	while (j < f2Size) {
 		l2 = f2.readLines(lineSizeBytes, j * lineSizeBytes);
-		f3.writeLines(l2);
+		outFile.writeLines(l2);
 		j++;
 	}
 
