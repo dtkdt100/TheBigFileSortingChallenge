@@ -19,22 +19,22 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="lib\File.cpp" />
+    <ClCompile Include="File.cpp" />
     <ClCompile Include="FilePathGenerator.cpp" />
-    <ClCompile Include="lib\FilePathUtils.cpp" />
+    <ClCompile Include="FilePathUtils.cpp" />
     <ClCompile Include="FileSort.cpp" />
-    <ClCompile Include="lib\Handle.cpp" />
-    <ClCompile Include="lib\Thread.cpp" />
+    <ClCompile Include="Handle.cpp" />
+    <ClCompile Include="Thread.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="lib\Defs.h" />
-    <ClInclude Include="lib\Exceptions.h" />
-    <ClInclude Include="lib\File.h" />
+    <ClInclude Include="Defs.h" />
+    <ClInclude Include="Exceptions.h" />
+    <ClInclude Include="File.h" />
     <ClInclude Include="FilePathGenerator.h" />
-    <ClInclude Include="lib\FilePathUtils.h" />
+    <ClInclude Include="FilePathUtils.h" />
     <ClInclude Include="FileSort.h" />
-    <ClInclude Include="lib\Handle.h" />
-    <ClInclude Include="lib\Thread.h" />
+    <ClInclude Include="Handle.h" />
+    <ClInclude Include="Thread.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

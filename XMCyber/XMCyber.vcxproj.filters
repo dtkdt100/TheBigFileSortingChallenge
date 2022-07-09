@@ -21,19 +21,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="lib\Handle.cpp">
+    <ClCompile Include="Handle.cpp">
       <Filter>Source Files\Lib</Filter>
     </ClCompile>
-    <ClCompile Include="lib\File.cpp">
+    <ClCompile Include="File.cpp">
       <Filter>Source Files\Lib</Filter>
     </ClCompile>
     <ClCompile Include="FileSort.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="lib\Thread.cpp">
+    <ClCompile Include="Thread.cpp">
       <Filter>Source Files\Lib</Filter>
     </ClCompile>
-    <ClCompile Include="lib\FilePathUtils.cpp">
+    <ClCompile Include="FilePathUtils.cpp">
       <Filter>Source Files\Lib</Filter>
     </ClCompile>
     <ClCompile Include="FilePathGenerator.cpp">
@@ -41,28 +41,28 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="lib\Handle.h">
+    <ClInclude Include="Handle.h">
       <Filter>Header Files\Lib</Filter>
     </ClInclude>
-    <ClInclude Include="lib\File.h">
+    <ClInclude Include="File.h">
       <Filter>Header Files\Lib</Filter>
     </ClInclude>
-    <ClInclude Include="lib\Defs.h">
+    <ClInclude Include="Defs.h">
       <Filter>Header Files\Lib</Filter>
     </ClInclude>
     <ClInclude Include="FileSort.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lib\Thread.h">
+    <ClInclude Include="Thread.h">
       <Filter>Header Files\Lib</Filter>
     </ClInclude>
-    <ClInclude Include="lib\FilePathUtils.h">
+    <ClInclude Include="FilePathUtils.h">
       <Filter>Header Files\Lib</Filter>
     </ClInclude>
     <ClInclude Include="FilePathGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lib\Exceptions.h">
+    <ClInclude Include="Exceptions.h">
       <Filter>Header Files\Lib</Filter>
     </ClInclude>
   </ItemGroup>

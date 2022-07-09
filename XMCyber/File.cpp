@@ -32,12 +32,9 @@ LinesBuffer File::readLines(uint32_t numberOfBytes, LONG startOffset) {
 	std::stringstream ss;
 	std::copy(data1.begin(), data1.end(), std::ostream_iterator<unsigned char>(ss));
 
-	size_t lineLength = 0;
 	while (std::getline(ss, line)) {
 		line.erase(line.end() - 1);
 		lines.push_back(line);
-		if (lineLength == 0) lineLength = line.length();
-		else if (lineLength != line.length()) throw std::exception(FILE_LINES_NOT_THE_SAME_LEN);
 	}
 
 	return lines;

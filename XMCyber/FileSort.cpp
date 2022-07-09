@@ -1,9 +1,9 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
-#include "lib/Exceptions.h"
-#include "lib/File.h"
-#include "lib/FilePathUtils.h"
+#include "Exceptions.h"
+#include "File.h"
+#include "FilePathUtils.h"
 #include "FileSort.h"
 #include "FilePathGenerator.h"
 
@@ -12,6 +12,12 @@ FileSort::FileSort(int maxFileSizeBytes, int numberOfLinesPerSegment, int lineSi
 	maxFileSizeBytes(maxFileSizeBytes),
 	numberOfLinesPerSegment(numberOfLinesPerSegment), 
 	lineSizeBytes(lineSizeBytes) {
+	if (maxFileSizeBytes < 0) {
+		throw std::exception(MAX_FILE_SIZE_TOO_SMALL);
+	}
+	if (numberOfLinesPerSegment <= 1) {
+		throw std::exception(LINES_PER_SEGEMENT_GREATER_THEN_ONE);
+	}
 }
 
 FileSort::~FileSort() { 
@@ -25,17 +31,22 @@ ExceptionStatus FileSort::isFileVaild(int fileSize) {
 	if (fileSize < numberOfLinesPerSegment * lineSizeBytes) {
 		return FILE_TOO_SMALL_EXCEPTION;
 	}
+	if (fileSize % (numberOfLinesPerSegment * lineSizeBytes) != 0) {
+		throw std::exception(FILE_SIZE_NOT_MULTIPLE_OF_LINES_PER_SEGMENT);
+	}
 	return EMPTY;
 }
 
 void FileSort::sort(const std::string& inFilePath, const std::string& outFilePath) {
-	File f = File(inFilePath, false);
+	File f = File(inFilePath);
 	int fSize = f.getSize();
 	ExceptionStatus errorMsg = isFileVaild(fSize);
 
 	if (errorMsg != EMPTY) {
 		throw std::exception(errorMsg);
 	}
+
+	
 	
 	basePath = FilePathUtils::getFileBasePath(inFilePath);
 	int numberOfSegements = fSize / (numberOfLinesPerSegment * lineSizeBytes);
@@ -87,6 +98,10 @@ void FileSort::mergeTwoFiles(const std::string& path1, const std::string& path2,
 	while (i < f1Size && j < f2Size) {
 		l1 = f1.readLines(lineSizeBytes, i * lineSizeBytes);
 		l2 = f2.readLines(lineSizeBytes, j * lineSizeBytes);
+		
+		if (l1.size() != lineSizeBytes-2 || l2.size() != lineSizeBytes-2) {
+			throw std::exception(FILE_SIZE_NOT_MULTIPLE_OF_LINES_PER_SEGMENT);
+		}
 
 		if (l2.front().compare(l1.front()) == 1) {
 			outFile.writeLines(l1);

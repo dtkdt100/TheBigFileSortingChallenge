@@ -1,5 +1,5 @@
 #pragma once
-#include "XMCyber/lib/FilePathUtils.h"
+#include "XMCyber/FilePathUtils.h"
 
 class TestsPathUtils {
 public:

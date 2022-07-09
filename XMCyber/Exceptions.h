@@ -4,8 +4,12 @@
 
 ExceptionStatus EMPTY = "";
 
+ExceptionStatus MAX_FILE_SIZE_TOO_SMALL = "Max file size too small";
+ExceptionStatus LINES_PER_SEGEMENT_GREATER_THEN_ONE = "Lines per segment must be greater than one";
+ExceptionStatus FILE_SIZE_NOT_MULTIPLE_OF_LINES_PER_SEGMENT = "File size not multiple of lines per segment";
+
 ExceptionStatus FILE_TOO_SMALL_EXCEPTION = "File is smaller then numberOfLinesPerSegment * lineSizeBytes";
-ExceptionStatus FILE_TOO_BIG_EXCEPTION = "File is too maxFileSizeBytes";
+ExceptionStatus FILE_TOO_BIG_EXCEPTION = "File is bigger then maxFileSizeBytes";
 
 ExceptionStatus WRITE_TO_FILE_EXCEPTION = "Error writing to file";
 ExceptionStatus RENAME_FILE_Exception = "Error renaming file";

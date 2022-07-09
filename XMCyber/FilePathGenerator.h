@@ -1,5 +1,5 @@
 #pragma once
-#include "lib/FilePathUtils.h"
+#include "FilePathUtils.h"
 
 class FilePathGenerator {
 public:

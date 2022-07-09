@@ -1,7 +1,7 @@
 #pragma once
 #include <Windows.h>
 #include <string>
-#include "lib/File.h"
+#include "File.h"
 
 class FileSortTest_FileSortStartsEmpty_Test;
 
