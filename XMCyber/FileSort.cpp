@@ -24,10 +24,10 @@ bool FileSort::isFileVaild(int fileSize) {
 	if (fileSize > maxFileSizeBytes) {
 		error = FILE_TOO_BIG_EXCEPTION;
 	}
-	if (fileSize < numberOfLinesPerSegment * lineSizeBytes) {
+	else if (fileSize < numberOfLinesPerSegment * lineSizeBytes) {
 		error = FILE_TOO_SMALL_EXCEPTION;
 	}
-	if (fileSize % (numberOfLinesPerSegment * lineSizeBytes) != 0) {
+	else if (fileSize % (numberOfLinesPerSegment * lineSizeBytes) != 0) {
 		error = FILE_SIZE_NOT_MULTIPLE_OF_LINES_PER_SEGMENT;
 	}
 	if (error != NO_EXCEPTION) {

@@ -4,6 +4,8 @@
 
 Exception NO_EXCEPTION = "";
 
+Exception FILE_EXSITS_EXCEPTION = "File already exists";
+Exception FILE_NOT_EXSITS_EXCEPTION = "File does not exist";
 Exception MAX_FILE_SIZE_TOO_SMALL = "Max file size too small";
 Exception LINES_PER_SEGEMENT_GREATER_THEN_ONE = "Lines per segment must be greater than one";
 Exception FILE_SIZE_NOT_MULTIPLE_OF_LINES_PER_SEGMENT = "File size not multiple of lines per segment";

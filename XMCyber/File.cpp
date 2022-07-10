@@ -112,6 +112,13 @@ bool File::compareFiles(const std::string& path1, const std::string& path2) {
 }
 
 Handle File::openFileInternal(const std::string& filePath, bool createNew) const {
+	bool fileExsits = File::exsits(filePath);
+	if (createNew && fileExsits) {
+		throw std::exception(FILE_EXSITS_EXCEPTION);
+	}
+	else if (!createNew && !fileExsits) {
+		throw std::exception(FILE_NOT_EXSITS_EXCEPTION);
+	}
 	const auto fileHandle =
 		CreateFileA(filePath.c_str(),
 			GENERIC_READ | FILE_APPEND_DATA,

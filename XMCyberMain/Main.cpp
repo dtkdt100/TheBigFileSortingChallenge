@@ -13,7 +13,12 @@ int main() {
 	std::vector<std::string> paths;
 	paths.push_back("C:\\temp\\test1.txt");
 	paths.push_back("C:\\temp\\test2.txt");
-	fileSort.sort(paths, "C:\\temp\\result.txt");
+	try {
+		fileSort.sort(paths, "C:\\temp\\result.txt");
+	}
+	catch (std::exception& e) {
+		std::cout << e.what() << std::endl;
+	}
 	clock_t end = clock();
 	double elapsed_secs = double(end - start) / CLOCKS_PER_SEC;
 	std::cout << "Runtime: " << elapsed_secs << " seconds" << std::endl;

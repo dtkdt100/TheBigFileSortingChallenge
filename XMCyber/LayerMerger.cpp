@@ -44,6 +44,7 @@ void LayerMerger::mergeLayer(const std::string& outPath, int layer, int numOfFil
 				// use heap memory
 				auto paramsPtr = std::make_unique<MergeTwoFilesParams>(std::move(path1), std::move(path2), numOfFiles == 2 ? outPath : outPathForFiles, lineSizeBytes);
 				
+				
 				HANDLE thread = CreateThread(NULL, 0, 
 					reinterpret_cast<LPTHREAD_START_ROUTINE>(mergeTwoFiles), 
 					paramsPtr.release(), 0, NULL);
