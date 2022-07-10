@@ -107,7 +107,7 @@ TEST(FileSortTest, InvaildFilePath) {
 		fileSort.sort(inputPath, outPath);
 	}
 	catch (const std::exception& e) {
-		EXPECT_EQ(INAVILD_HANDLE_EXCEPTION, errorToString(e));
+		EXPECT_EQ(FILE_NOT_EXSITS_EXCEPTION, errorToString(e));
 	}
 }
 
