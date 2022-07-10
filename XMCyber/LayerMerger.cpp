@@ -11,7 +11,7 @@ LayerMerger::LayerMerger(const std::string& outFilePath, const std::string& base
 	
 }
 
-void LayerMerger::merge(int numberOfSegements, int lineSizeBytes) {
+void LayerMerger::merge(int numberOfSegements, int lineSizeBytes) const {
 	int layer = 0;
 	int numberOfFiles = numberOfSegements;
 
@@ -24,7 +24,7 @@ void LayerMerger::merge(int numberOfSegements, int lineSizeBytes) {
 	}
 }
 
-void LayerMerger::mergeLayer(const std::string& outPath, int layer, int numOfFiles, int lineSizeBytes) {
+void LayerMerger::mergeLayer(const std::string& outPath, int layer, int numOfFiles, int lineSizeBytes) const {
 	int maxThreads = getMaxThreadSize();
 
 	int i = 0;
@@ -111,7 +111,7 @@ DWORD __stdcall LayerMerger::mergeTwoFiles(MergeTwoFilesParams* mergeParamsRawPt
 	return 0;
 }
 
-int LayerMerger::getMaxThreadSize() {
+int LayerMerger::getMaxThreadSize() const {
 	int threadsFitInRam = maxLinesInRam / 2;
 	if (threadsFitInRam > 8) {
 		return 8;

@@ -1,7 +1,7 @@
 #pragma once
 #include "File.h"
 
-class TempFile {
+class TempFile final {
 public:
 	TempFile(const std::string& path, bool createNew = false);
 	File& getFile();

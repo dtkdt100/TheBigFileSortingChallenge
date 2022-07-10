@@ -59,7 +59,7 @@ TEST(FileSortTest, SortMultipleFiles) {
 TEST(FileSortTest, FileWithDifferentLinesLength) {
 	const auto dir = TestsPathUtils::getCurrentTestsFilesDir();
 	const auto inputPath = FilePathUtils::generateFilePath(dir, "file_with_different_lines_length", "txt");
-	const auto outPath = FilePathUtils::generateFilePath(dir, "out_file_with_different_lines_length", "result");
+	const auto outPath = FilePathUtils::generateFilePath(dir, "", "");
 
 	try {
 		FileSort fileSort(130, 2, 5);
